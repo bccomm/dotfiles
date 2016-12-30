@@ -46,12 +46,15 @@
 (add-to-list 'load-path "~/build/bbdb/lisp/")
 (add-to-list 'load-path "~/build/electric-spacing/")
 (add-to-list 'load-path "~/build/unfill/")
+(add-to-list 'load-path "~/build/swiper")
 
 (require 'saveplace)
 (require 'org-loaddefs)
+(require 'org-lect)
 (require 'tramp)
 (require 'electric-spacing)
 (require 'unfill)
+(require 'ivy)
 #+END_SRC
   
 * Helper functions
@@ -459,6 +462,12 @@ keyboard focus, so this moves it immediately back."
 (global-auto-revert-mode t)
 #+END_SRC
 
+* Ivy
+#+BEGIN_SRC emacs-lisp
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "(%d/%d) ")
+#+END_SRC
 * Bookmarks
 * Org mode
 #+BEGIN_SRC emacs-lisp
