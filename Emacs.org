@@ -656,9 +656,9 @@ keyboard focus, so this moves it immediately back."
 #+BEGIN_SRC emacs-lisp
 (load-theme 'tsdh-dark)
 
-(setq display-time-mode t)
-(setq column-number-mode t)
-(setq show-paren-mode t)
+(display-time-mode 1)
+(column-number-mode 1)
+(show-paren-mode 1)
 (tool-bar-mode -1)
 #+END_SRC
 
