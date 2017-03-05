@@ -3,17 +3,12 @@
 #+EMAIL: mano155@gmail.com
 
 * Motivation
-  Because I can, and because I want to use Org for, y'know, organizing
-  and stuff. My .emacs file has been an ever-growing mess (about 700
-  lines), and pulls things in from all kinds of different sources. I
-  ended up just copying everything into this file, adding structure as
-  I went, and deleted whatever I don't use.
-
   I still like the idea of having my configuration be in one place,
   but I wanted more structure. This setup was inspired by @seth and
   his my-emacs-dot-d repo on github.
 
-  My .emacs file contains the following lines:
+  My .emacs file contains the following lines (which will not be
+  included when this file is tangled):
 
   #+BEGIN_EXAMPLE emacs-lisp
   (package-initialize)
@@ -42,7 +37,7 @@
   contains the repos I track.
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/org-lect/")
+(add-to-list 'load-path "~/build/org-lect/")
 (add-to-list 'load-path "~/build/bbdb/lisp/")
 (add-to-list 'load-path "~/build/electric-spacing/")
 (add-to-list 'load-path "~/build/unfill/")
@@ -50,6 +45,7 @@
 (add-to-list 'load-path "~/build/dash.el")
 (add-to-list 'load-path "~/build/with-editor")
 (add-to-list 'load-path "~/build/magit/lisp")
+(add-to-list 'load-path "~/build/company-mode")
 
 (require 'saveplace)
 (require 'org-loaddefs)
@@ -58,6 +54,8 @@
 (require 'electric-spacing)
 (require 'unfill)
 (require 'ivy)
+(require 'company)
+(require 'magit)
 #+END_SRC
   
 * Helper functions
@@ -470,6 +468,7 @@ keyboard focus, so this moves it immediately back."
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
+(add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 * Bookmarks
 #+BEGIN_SRC emacs-lisp
@@ -486,8 +485,9 @@ keyboard focus, so this moves it immediately back."
 
   (setq org-default-notes-file (concat org-directory "/notes.org")) 
 
-  (setq org-agenda-files (quote ("/home/sh0e/org/" "/home/sh0e/org-lect")))
-  (setq org-babel-load-languages (quote ((emacs-lisp . t) (C . t) (python . t))))
+  (setq org-agenda-files (quote ("/home/sh0e/org/" "/home/sh0e/build/org-lect")))
+  (setq org-babel-load-languages (quote ((emacs-lisp . t) (C . t) 
+  (python . t) (ditaa . t))))
   (setq org-directory "~/org")
   (setq org-drill-optimal-factor-matrix
 	(quote ((1 (2.5 . 4.0) (1.7000000000000002 . 3.44)))))
@@ -501,7 +501,7 @@ keyboard focus, so this moves it immediately back."
   (setq org-deadline-warning-days 8)
 
   (setq org-todo-keywords
-	(quote ((sequence "TODO(t)" "NEXT(n!)" "|" "DONE(d!/@)")
+	(quote ((sequence "NEXT(n!)" "TODO(t)" "|" "DONE(d!/@)")
 		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "SOMEDAY(S!)"
 			  "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 
