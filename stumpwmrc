@@ -1,0 +1,49 @@
+;; -*-lisp-*-
+;;
+;; Stumpwm user definitions
+
+(redirect-all-output "/home/sh0e/stumpwmlog")
+
+(in-package :stumpwm)
+
+(defun cat (&rest strings) ; Needed for some packages
+  (apply 'concatenate 'string strings))
+
+(set-prefix-key (kbd "C-t"))
+
+;;; Variables
+;; suppress the message StumpWM displays when it starts. Set it to NIL
+(setf *mouse-focus-policy* :sloppy ;; :click, :ignore, :sloppy
+      ;; Set the message and input box to the bottom right. This way it overlaps with mode-line.
+      *message-window-gravity* :bottom-right
+      *input-window-gravity* :bottom-right)
+      
+
+;;;; The Mode Line
+
+(setf *screen-mode-line-format*
+      (list '(:eval (run-shell-command "date '+%R, %F %a'|tr -d [:cntrl:]" t)) " | [^B%n^b] %W"))
+
+(defun update-mode-line () "Update the mode-line sooner than usual."
+       (let ((screen (current-screen)))
+         (when (screen-mode-line screen)
+           (redraw-mode-line-for (screen-mode-line screen) screen))))
+
+;; turn on/off the mode line for the current screen only.
+;;(if (not (head-mode-line (current-head)))
+;;     (toggle-mode-line (current-screen) (current-head)))
+
+(defcommand gnome-terminal () ()
+  "Start an gnome-terminal instance or switch to it, if it is already running."
+  (run-or-raise "gnome-terminal" '(:instance "gnome-terminal")))
+
+(define-key *root-map* (kbd "c") "gnome-terminal")
+
+(define-key *root-map* (kbd "C-t") "send-escape")
+
+(run-or-raise "fcitx" '(:instance "fcitx"))
+
+(run-or-raise "xflux -z 84606" '(:instance "xflux"))
+
+
+
