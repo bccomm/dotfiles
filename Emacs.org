@@ -486,14 +486,14 @@ keyboard focus, so this moves it immediately back."
   (setq org-default-notes-file (concat org-directory "/notes.org")) 
 
   (setq org-agenda-files (quote ("/home/sh0e/org/" "/home/sh0e/build/org-lect")))
-  (setq org-refile-targets 
+  (setq org-refile-targets
 	'(("/home/sh0e/org/Career.org" . (:maxlevel . 6))
 	  ("/home/sh0e/org/Personal.org" . (:maxlevel . 6))
 	  ("/home/sh0e/org/Learning.org" . (:maxlevel . 6))
 	  ("/home/sh0e/org/Liesure.org" . (:maxlevel . 6))
 	  ("/home/sh0e/org/Meta.org" . (:maxlevel . 6))))
 
-  (setq org-babel-load-languages (quote ((emacs-lisp . t) (C . t) 
+  (setq org-babel-load-languages (quote ((emacs-lisp . t) (C . t)
   (python . t) (ditaa . t))))
   (setq org-directory "~/org")
   (setq org-drill-optimal-factor-matrix
