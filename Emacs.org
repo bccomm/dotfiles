@@ -698,9 +698,8 @@ keyboard focus, so this moves it immediately back."
 (global-set-key (kbd "<f4>") 'emms-pause)
 (global-set-key (kbd "<f6>") (lambda () (interactive) (emms-next) (emms-show)))
 (global-set-key (kbd "<f5>") (lambda () (interactive) (emms-previous) (emms-show)))
-(define-key org-mode-map "\C-c\\" 'org-lect-update-today)
-(define-key org-agenda-mode-map "\C-c\\" 'org-lect-agenda-update-today)
-(define-key org-agenda-mode-map "\C-c\C-\\" 'org-lect-needed-effort-today)
+(org-defkey org-mode-map "\C-c\\" 'org-lect-update-today)
+(org-defkey org-agenda-mode-map "\C-c\\" 'org-lect-agenda-update-today)
 
 (global-set-key (kbd "\C-z") nil)
 #+END_SRC
