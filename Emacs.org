@@ -454,13 +454,14 @@ keyboard focus, so this moves it immediately back."
 
 * Sessions and history
 #+BEGIN_SRC emacs-lisp
-(setq save-place-file "~/.emacs.d/.saveplace")
-(setq-default save-place t)
-(setq savehist-file "~/.emacs.d/.savehist")
-(savehist-mode 1)
-(setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
-(server-start)
-(global-auto-revert-mode t)
+  (setq save-place-file "~/.emacs.d/.saveplace")
+  (save-place-mode 1)
+  (setq savehist-file "~/.emacs.d/.savehist")
+  (savehist-mode 1)
+  (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+  (server-start)
+  (global-auto-revert-mode t)
+  (setq make-backup-files nil)
 #+END_SRC
 
 * Ivy
