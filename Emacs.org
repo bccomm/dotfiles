@@ -495,8 +495,11 @@ keyboard focus, so this moves it immediately back."
 	  ("/home/sh0e/org/Liesure.org" . (:maxlevel . 6))
 	  ("/home/sh0e/org/Meta.org" . (:maxlevel . 6))))
 
-  (setq org-babel-load-languages (quote ((emacs-lisp . t) (C . t)
-  (python . t) (ditaa . t))))
+  (org-babel-do-load-languages 'org-babel-load-languages
+			       (quote ((emacs-lisp . t) (C . t)
+				       (python . t) (ditaa . t)
+				       (shell . t))))
+
   (setq org-directory "~/org")
   (setq org-drill-optimal-factor-matrix
 	(quote ((1 (2.5 . 4.0) (1.7000000000000002 . 3.44)))))
