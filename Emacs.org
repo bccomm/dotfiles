@@ -702,7 +702,7 @@ keyboard focus, so this moves it immediately back."
   (eval-after-load 'org (progn
 			  (org-defkey org-mode-map "\C-c\\" 'org-lect-update-today)
 			  (org-defkey org-agenda-mode-map "\C-c\\"
-				      'org-lect-agenda-update-today)))
+				      'org-lect-agenda-update-today) t))
 
   (global-set-key (kbd "\C-z") nil)
 #+END_SRC
