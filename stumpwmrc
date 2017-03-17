@@ -1,4 +1,3 @@
-;; -*-lisp-*-
 ;;
 ;; Stumpwm user definitions
 
@@ -43,7 +42,7 @@
 
 (run-or-raise "fcitx" '(:instance "fcitx"))
 
-(run-or-raise "xflux -z 84606" '(:instance "xflux"))
+(run-or-raise "redshift" '(:instance "redshift"))
 
 
 
