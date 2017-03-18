@@ -470,12 +470,16 @@ keyboard focus, so this moves it immediately back."
 (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 * Bookmarks
-#+BEGIN_SRC emacs-lisp
-(with-eval-after-load 'info
-  (info-initialize)
-  (add-to-list 'Info-directory-list
-               "~/build/magit/Documentation/"))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'info
+      (info-initialize)
+      (add-to-list 'Info-directory-list
+  		 "~/build/magit/Documentation/"))
+  #+END_SRC
+
+  #+BEGIN_SRC emacs-lisp
+    (setq browse-url-browser-function 'eww-browse-url)
+  #+END_SRC
 
 * Org mode
 #+BEGIN_SRC emacs-lisp
