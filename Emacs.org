@@ -462,6 +462,15 @@ keyboard focus, so this moves it immediately back."
     (savehist-mode 1)
     (setq savehist-additional-variables '(kill-ring regexp-search-ring))
   #+END_SRC
+  Start the emacs server here, and make external changes on disk show
+  up automatically. Also, don't puke tilde backups everywhere:
+  everything I care about keeping changes for is in a Git repo
+  anyway.
+  #+BEGIN_SRC emacs-lisp
+    (server-start)
+    (global-auto-revert-mode t)
+    (setq make-backup-files nil)
+  #+END_SRC
 * Ivy
 #+BEGIN_SRC emacs-lisp
 (ivy-mode 1)
