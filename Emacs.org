@@ -717,3 +717,6 @@ keyboard focus, so this moves it immediately back."
 #+END_SRC
 * TODO BBDB
 * TODO Mail
+  #+BEGIN_SRC emacs-lisp
+  (setq send-mail-function 'smtpmail-send-it)
+  #+END_SRC
