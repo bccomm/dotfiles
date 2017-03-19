@@ -11,9 +11,12 @@ if [ $(hostname -s) == "topd0g" ]; then
     xrandr --output HDMI1 --left-of HDMI2 --auto
     devmon &
     devmon --mount /dev/sdb1
+
+    MPD_HOST=/home/sh0e/.mpd/socket
+    mpd ~/dotfiles/mpd.conf && export MPD_HOST
 fi
 
-start-pulseaudio-x11  #BASZD MEG
+start-pulseaudio-x11
 
 export XMODIFIERS=@im=fcitx
 export GTK_IM_MODULE=fcitx
