@@ -19,5 +19,5 @@ export XMODIFIERS=@im=fcitx
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 
-/usr/local/bin/stumpwm --no-userinit > ~/stumpwmlog 2>&1
+/usr/local/bin/stumpwm
 

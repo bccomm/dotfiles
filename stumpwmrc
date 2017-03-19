@@ -16,21 +16,11 @@
       ;; Set the message and input box to the bottom right. This way it overlaps with mode-line.
       *message-window-gravity* :bottom-right
       *input-window-gravity* :bottom-right)
-      
 
 ;;;; The Mode Line
 
 (setf *screen-mode-line-format*
       (list '(:eval (run-shell-command "date '+%R, %F %a'|tr -d [:cntrl:]" t)) " | [^B%n^b] %W"))
-
-(defun update-mode-line () "Update the mode-line sooner than usual."
-       (let ((screen (current-screen)))
-         (when (screen-mode-line screen)
-           (redraw-mode-line-for (screen-mode-line screen) screen))))
-
-;; turn on/off the mode line for the current screen only.
-;;(if (not (head-mode-line (current-head)))
-;;     (toggle-mode-line (current-screen) (current-head)))
 
 (defcommand gnome-terminal () ()
   "Start an gnome-terminal instance or switch to it, if it is already running."
