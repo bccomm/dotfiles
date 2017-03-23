@@ -50,6 +50,7 @@
 (add-to-list 'load-path "~/build/company-mode")
 (add-to-list 'load-path "~/build/simple-mpc")
 (add-to-list 'load-path "~/build/s.el")
+(add-to-list 'load-path "~/build/undo-tree")
 
 (require 'saveplace)
 (require 'org-loaddefs)
@@ -62,6 +63,7 @@
 (require 'magit)
 (require 'simple-mpc)
 (require 's)
+(require 'undo-tree)
 #+END_SRC
   
 * Helper functions
