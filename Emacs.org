@@ -474,10 +474,17 @@ keyboard focus, so this moves it immediately back."
     (setq make-backup-files nil)
   #+END_SRC
 * Ivy
+I use Ivy for completion, because it's very powerful and easy. I
+enable virtual buffers and change the candidate count to show the
+current selection and total count. By default,
+~ivy-initial-inputs-alist~ puts a caret (^) at the beginning of
+Org-related and man-related commands, and I disable completely here.
+
 #+BEGIN_SRC emacs-lisp
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "(%d/%d) ")
+(setq ivy-count-format "%d/%d ")
+(setq ivy-initial-inputs-alist '())
 (add-hook 'after-init-hook 'global-company-mode)
 #+END_SRC
 * Bookmarks
