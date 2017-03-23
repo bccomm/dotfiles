@@ -190,8 +190,8 @@ The rest of these are exactly as on the norang.ca site mentioned above.
 		 (has-lect (org-entry-get (point) "LECT_PAGES")))
             (save-excursion
               (forward-line 1)
-              (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ \\(NEXT\\|SOMEDAY\\) " subtree-end t))
-                (unless (member "WAITING" (org-get-tags-at))
+              (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ \\(NEXT\\|AFTER\\) " subtree-end t))
+                (unless (member "WAIT" (org-get-tags-at))
                   (setq has-next t))))
             (if (or has-next has-lect)
                 next-headline
