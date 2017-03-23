@@ -47,6 +47,7 @@
 (add-to-list 'load-path "~/build/with-editor")
 (add-to-list 'load-path "~/build/magit/lisp")
 (add-to-list 'load-path "~/build/company-mode")
+(add-to-list 'load-path "~/build/simple-mpc")
 
 (require 'saveplace)
 (require 'org-loaddefs)
@@ -57,6 +58,7 @@
 (require 'ivy)
 (require 'company)
 (require 'magit)
+(require 'simple-mpc)
 #+END_SRC
   
 * Helper functions
@@ -710,9 +712,9 @@ keyboard focus, so this moves it immediately back."
   (global-set-key "\C-ca" 'org-agenda)
   (define-key org-agenda-mode-map "Y" 'org-agenda-todo-yesterday)
   (define-key org-mode-map "\C-c\S-y" 'org-todo-yesterday)
-  (global-set-key (kbd "<f4>") 'emms-pause)
-  (global-set-key (kbd "<f6>") (lambda () (interactive) (emms-next) (emms-show)))
-  (global-set-key (kbd "<f5>") (lambda () (interactive) (emms-previous) (emms-show)))
+  (global-set-key (kbd "<f4>") 'simple-mpc-toggle)
+  (global-set-key (kbd "<f6>") (lambda () (interactive) (simple-mpc-next) (shell-command "mpc current")))
+  (global-set-key (kbd "<f5>") (lambda () (interactive) (simple-mpc-prev) (shell-command "mpc current")))
   (eval-after-load 'org (progn
 			  (org-defkey org-mode-map "\C-c\\" 'org-lect-update-today)
 			  (org-defkey org-agenda-mode-map "\C-c\\"
