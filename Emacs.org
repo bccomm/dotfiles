@@ -463,6 +463,7 @@ keyboard focus, so this moves it immediately back."
     (setq savehist-file "~/.emacs.d/.savehist")
     (savehist-mode 1)
     (setq savehist-additional-variables '(kill-ring regexp-search-ring))
+    (global-undo-tree-mode)
   #+END_SRC
   Start the emacs server here, and make external changes on disk show
   up automatically. Also, don't puke tilde backups everywhere:
