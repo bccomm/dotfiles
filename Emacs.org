@@ -1,6 +1,7 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Bruce V Chiarelli
 #+EMAIL: mano155@gmail.com
+#+PROPERTY: header-args :comments no :tangle yes
 
 * Motivation
   I still like the idea of having my configuration be in one place,
@@ -324,7 +325,9 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
     (if (bh/is-subproject-p)
         nil
       next-headline)))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
 (defun bh/clock-in-to-next (kw)
   "Switch a task from TODO to NEXT when clocking in.
 Skips capture tasks, projects, and subprojects.
