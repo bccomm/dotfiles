@@ -49,6 +49,7 @@
 (add-to-list 'load-path "~/build/magit/lisp")
 (add-to-list 'load-path "~/build/company-mode")
 (add-to-list 'load-path "~/build/simple-mpc")
+(add-to-list 'load-path "~/build/s.el")
 
 (require 'saveplace)
 (require 'org-loaddefs)
@@ -60,6 +61,7 @@
 (require 'company)
 (require 'magit)
 (require 'simple-mpc)
+(require 's)
 #+END_SRC
   
 * Helper functions
