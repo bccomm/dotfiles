@@ -51,6 +51,8 @@
 (add-to-list 'load-path "~/build/simple-mpc")
 (add-to-list 'load-path "~/build/s.el")
 (add-to-list 'load-path "~/build/undo-tree")
+(add-to-list 'load-path "~/build/emacs-w3m")
+(add-to-list 'load-path "~/build/notmuch/emacs")
 
 (require 'saveplace)
 (require 'org-loaddefs)
@@ -174,8 +176,8 @@ The rest of these are exactly as on the norang.ca site mentioned above.
                  (has-next ))
             (save-excursion
               (forward-line 1)
-              (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ \\(NEXT\\|SOMEDAY\\) " subtree-end t))
-		;; \\(\?:\\\* \\(\?:NEXT\\|SOMEDAY\\)\\)
+              (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ \\(NEXT\\|FUZZY\\) " subtree-end t))
+		;; \\(\?:\\\* \\(\?:NEXT\\|FUZZY\\)\\)
                 (unless (member "WAITING" (org-get-tags-at))
                   (setq has-next t))))
             (if has-next
@@ -195,8 +197,8 @@ The rest of these are exactly as on the norang.ca site mentioned above.
 		 (has-lect (org-entry-get (point) "LECT_PAGES")))
             (save-excursion
               (forward-line 1)
-              (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ \\(NEXT\\|AFTER\\) " subtree-end t))
-                (unless (member "WAIT" (org-get-tags-at))
+              (while (and (not has-next) (< (point) subtree-end) (re-search-forward "^\\*+ \\(NEXT\\|FUZZY\\) " subtree-end t))
+                (unless (or (member "WAIT" (org-get-tags-at)) (string= (org-get-todo-state) "AFTER"))
                   (setq has-next t))))
             (if (or has-next has-lect)
                 next-headline
@@ -492,9 +494,21 @@ Org-related and man-related commands, and I disable completely here.
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "%d/%d ")
+  #+BEGIN_SRC emacs-lisp
+    (setq browse-url-browser-function 'w3m)
+  #+END_SRC
+
 (setq ivy-initial-inputs-alist '())
 (add-hook 'after-init-hook 'global-company-mode)
+    (setq org-default-notes-file (concat org-directory "/notes.org"))
+
 #+END_SRC
+    (org-babel-do-load-languages 'org-babel-load-languages
+      			   (quote ((emacs-lisp . t) (C . t)
+      				   (python . t) (ditaa . t)
+      				   (shell . t)
+    				   (scheme . t))))
+
 * Bookmarks
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'info
@@ -503,259 +517,236 @@ Org-related and man-related commands, and I disable completely here.
   		 "~/build/magit/Documentation/"))
   #+END_SRC
 
-  #+BEGIN_SRC emacs-lisp
-    (setq browse-url-browser-function 'eww-browse-url)
-  #+END_SRC
-
+    (setq org-habit-graph-column 60)
+    (setq org-deadline-warning-days 8)
+    (setq org-habit-following-days 3)
+    (setq org-habit-preceding-days 20)
 * Org mode
-  #+BEGIN_SRC emacs-lisp
+  
+#+BEGIN_SRC emacs-lisp
     (add-hook 'org-mode-hook 'turn-on-auto-fill)
     (require 'org-protocol)
 
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
-
     (setq org-agenda-files (quote ("/home/sh0e/org/" "/home/sh0e/build/org-lect")))
     (setq org-refile-targets
-  	'(("/home/sh0e/org/Career.org" . (:maxlevel . 6))
-  	  ("/home/sh0e/org/Personal.org" . (:maxlevel . 6))
-  	  ("/home/sh0e/org/Learning.org" . (:maxlevel . 6))
-  	  ("/home/sh0e/org/Liesure.org" . (:maxlevel . 6))
-  	  ("/home/sh0e/org/Meta.org" . (:maxlevel . 6))))
-
-    (org-babel-do-load-languages 'org-babel-load-languages
-  			       (quote ((emacs-lisp . t) (C . t)
-  				       (python . t) (ditaa . t)
-  				       (shell . t))))
+      '(("/home/sh0e/org/Career.org" . (:maxlevel . 6))
+        ("/home/sh0e/org/Personal.org" . (:maxlevel . 6))
+        ("/home/sh0e/org/Learning.org" . (:maxlevel . 6))
+        ("/home/sh0e/org/Liesure.org" . (:maxlevel . 6))
+        ("/home/sh0e/org/Meta.org" . (:maxlevel . 6))))
 
     (setq org-directory "~/org")
     (setq org-drill-optimal-factor-matrix
-  	(quote ((1 (2.5 . 4.0) (1.7000000000000002 . 3.44)))))
+      (quote ((1 (2.5 . 4.0) (1.7000000000000002 . 3.44)))))
     (setq org-file-apps (quote ((auto-mode . emacs)
-  			      ("\\.mm\\'" . default)
-  			      ("\\.x?html?\\'" . default)
-  			      ("\\.pdf\\'" . "evince %s"))))
+      			  ("\\.mm\\'" . default)
+      			  ("\\.x?html?\\'" . default)
+      			  ("\\.pdf\\'" . "evince %s"))))
     (setq org-log-into-drawer t)
 
-    (setq org-habit-graph-column 60)
-    (setq org-deadline-warning-days 8)
-  #+END_SRC
 
   I used to use Bernt Hansen's configuration, including his choice of
   keywords, but now I have my own.
 
-  - NEXT :: Actionable now
-  - AFTER :: I'm not ready
-  - WAIT :: Some external dependency isn't ready
-  - FUZZY :: Needs to be clarified
-  - PROJECT :: Not actionable, but produces actionables
-  - DONE :: Completed
-  - CANCELLED :: Not completed
+#+END_SRC
 
-  I have eschewed using todo keywords for anything that is not
-  potentially actionable, so I don't use MEETING or PHONE items. These
-  notes are plain headlines organized by tag. The only exception is
-  the PROJECT keyword, which I use sparingly (it's not the only way an
-  item becomes a project, as I explain later).
+** Definitions
+*** Todo keywords and states
+- NEXT :: Actionable now
+- AFTER :: I'm not ready
+- WAIT :: Some external dependency isn't ready
+- FUZZY :: Needs to be clarified
+- PROJECT :: Not actionable, but produces actionables
+- DONE :: Completed
+- CANCELLED :: Not completed
+                 
+I don't use todo keywords for anything that is not potentially
+actionable, so I don't use MEETING or PHONE items like Bernt's setup
+did. Such notes are plain headlines distinguished by a tag. The only
+exception is the PROJECT keyword, which I use sparingly (it's not the
+only way an item becomes a project, as I explain later).
 
-  I've opted to use the word AFTER instead of SOMEDAY, but it's
-  essentially the same. Perhaps not inconspicuously, there is no
-  keyword called TODO. Honestly, it's all down to semantics, but I
-  felt that TODO and SOMEDAY items tended to linger. If it's not a
-  next action or could soon be one, it's not well defined: FUZZY, as I
-  say. This is the default for new tasks.
-
-  I keep HOLD, SOMEDAY, MEETING, TODO, and PHONE relegated to their
-  own sequence and make them an ugly color so I'm not tempted to keep
-  using them.
-
-  #+BEGIN_SRC emacs-lisp
-    ;; (setq org-todo-keywords
-    ;;     (quote ((sequence "NEXT(n!)" "TODO(t)" "|" "DONE(d!/@)")
-    ;;               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "SOMEDAY(S!)"
-    ;;         		"|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
-
-    (setq org-todo-keywords (quote ((sequence "WAITING" "HOLD" "SOMEDAY" "TODO"
-      					"|" "PHONE" "MEETING")
-      			      (sequence "NEXT(n!)" "AFTER(a!)" "WAIT(w!)" "FUZZY(f!)"
-      					"PROJECT(p!)" "|" "DONE(d!)" "CANCELLED(c@)"))))
-
+I've opted to use the word AFTER instead of SOMEDAY, but it's
+essentially the same. Perhaps not inconspicuously, there is *no
+keyword called TODO*. Honestly, it's all down to semantics, but I felt
+that TODO and SOMEDAY items tended to linger. If a todo item is not a
+next action and can't become one in its current form, it's not well
     ;; This can be done on a case by case basis anyway
     (setq org-enforce-todo-dependencies t)
 
-    ;; I still have stuff in there
-    (setq org-agenda-include-diary t)
+I keep the old keywords around so I can search archived files and look
+at files people send me without too much fuss.
 
-    (setq org-agenda-tags-column (+ 10 (- (window-total-width))))
-
-    ;; (setq org-todo-keyword-faces
-    ;;     (quote (("TODO" :foreground "red" :weight bold :strike-through t :background "orange red")
-    ;; 	      ("NEXT" :foreground "deep sky blue" :weight bold :box (:style released-button :color "deep sky blue"))
-    ;; 	      ("DONE" :foreground "forest green" :weight bold)
-    ;; 	      ("WAITING" :foreground "cyan" :weight semi-light :box (:style pressed-button :color "cyan"))
-    ;; 	      ("SOMEDAY" :foreground "orange" :weight bold)
-    ;; 	      ("HOLD" :foreground (bc/color-done) :weight bold)
-    ;; 	      ("CANCELLED" :foreground "forest green" :weight bold)
-    ;; 	      ("MEETING" :foreground "forest green" :weight bold)
-    ;; 	      ("PHONE" :foreground "forest green" :weight bold))))
-
+#+BEGIN_SRC emacs-lisp
+    (setq org-todo-keywords (quote ((sequence "WAITING" "HOLD" "SOMEDAY" "TODO"
+        				      "|" "PHONE" "MEETING")
+        			    (sequence "NEXT(n!)" "AFTER(a!)" "WAIT(w!)" "FUZZY(f!)"
+        				      "PROJECT(p!)" "|" "DONE(d!)" "CANCELLED(c@)"))))
 
     (setq org-todo-keyword-faces
         (quote (("NEXT" :foreground "dodger blue" :box t :weight bold)
-  	      ("DONE" :foreground "lawn green" :weight bold)
-  	      ("AFTER" :foreground "dark turquoise" :weight ultra-bold)
-  	      ("WAIT" :foreground "orchid")
-  	      ("FUZZY" :foreground "khaki" :weight bold)
-  	      ("PROJECT" :foreground "orange" :box t)
-  	      ("CANCELLED" :foreground "tomato")
-  	      ("TODO" :foreground "black")
-  	      ("WAITING" :foreground "black")
-  	      ("SOMEDAY" :foreground "black")
-  	      ("HOLD" :foreground "black")
-  	      ("MEETING" :foreground "black")
-  	      ("PHONE" :foreground "black"))))
-
-
-    ;; Do not dim blocked tasks
-    (setq org-agenda-dim-blocked-tasks nil)
-
-    ;; Custom agenda command definitions
-    (setq org-agenda-custom-commands
-        (quote (("N" "Notes" tags "NOTE"
-      	     ((org-agenda-overriding-header "Notes")
-                    (org-tags-match-list-sublevels t)))
-      	    ("h" "Habits" tags-todo "STYLE=\"habit\""
-      	     ((org-agenda-overriding-header "Habits")
-                    (org-agenda-sorting-strategy
-                     '(todo-state-down effort-up category-keep))))
-      	    (" " "Agenda"
-      	     ((agenda "" ((org-agenda-span 1)))
-                    (tags "REFILE"
-              	    ((org-agenda-overriding-header "Tasks to Refile")
-              	     (org-tags-match-list-sublevels nil)))
-                    (tags-todo "-CANCELLED/!"
-        		       ((org-agenda-overriding-header "Stuck Projects")
-                                (org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                                (org-agenda-sorting-strategy
-                                 '(category-keep))))
-                    (tags-todo "-HOLD-CANCELLED/!"
-        		       ((org-agenda-overriding-header "Projects")
-                                (org-agenda-skip-function 'bh/skip-non-projects)
-                                (org-tags-match-list-sublevels 'indented)
-                                (org-agenda-sorting-strategy
-                                 '(category-keep))))
-                    (tags-todo "-CANCELLED/!NEXT"
-        		       ((org-agenda-overriding-header (concat "Project Next Tasks"
-        							      (if bh/hide-scheduled-and-waiting-next-tasks
-              							    ""
-                                                                        " (including WAITING and SCHEDULED tasks)")))
-                                (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
-                                (org-tags-match-list-sublevels t)
-                                (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-sorting-strategy
-                                 '(todo-state-down effort-up category-keep))))
-                    (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-        		       ((org-agenda-overriding-header (concat "Project Subtasks"
-        							      (if bh/hide-scheduled-and-waiting-next-tasks
-              							    ""
-                                                                        " (including WAITING and SCHEDULED tasks)")))
-                                (org-agenda-skip-function 'bh/skip-non-project-tasks)
-                                (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-sorting-strategy
-                                 '(category-keep))))
-                    (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
-        		       ((org-agenda-overriding-header (concat "Standalone Tasks"
-        							      (if bh/hide-scheduled-and-waiting-next-tasks
-              							    ""
-                                                                        " (including WAITING and SCHEDULED tasks)")))
-                                (org-agenda-skip-function 'bh/skip-project-tasks)
-                                (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-sorting-strategy
-                                 '(category-keep))))
-                    (tags-todo "-CANCELLED+WAITING|HOLD/!"
-        		       ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks"
-        							      (if bh/hide-scheduled-and-waiting-next-tasks
-              							    ""
-                                                                        " (including WAITING and SCHEDULED tasks)")))
-                                (org-agenda-skip-function 'bh/skip-non-tasks)
-                                (org-tags-match-list-sublevels nil)
-                                (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-                                (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
-                    (tags "-REFILE/"
-              	    ((org-agenda-overriding-header "Tasks to Archive")
-              	     (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
-              	     (org-tags-match-list-sublevels nil))))
-      	     nil))))
-
-    (setq org-capture-templates
-        (quote (("t" "Task capture" entry (file "~/org/Capture.org")
-      	     "* FUZZY %?\n  %U\n%a\n" :clock-in t :clock-resume t)
-      	    ("r" "respond" entry (file "~/org/Capture.org")
-      	     "* NEXT Respond to %:from on %:subject\n  SCHEDULED: %t\n  %?" :clock-in t :clock-resume t :immediate-finish t)
-      	    ("n" "note" entry (file "~/org/Capture.org")
-      	     "* %? :note:\n  %U\n" :clock-in t :clock-resume t)
-      	    ("j" "Journal" entry (file+datetree "~/org/Journal.org")
-      	     "* %U\n  %?\n" :clock-in t :clock-resume t)
-      	    ("w" "org-protocol" entry (file "~/org/Capture.org")
-      	     "* FUZZY Review %c\n%U\n%?%(bc/refocus)" :immediate-finish t)
-      	    ("v" "Vocabulary" checkitem (file+headline "~/org/Vocab.org" "Vocabulary")
-      	     "- [ ] %^{The word} (%^{Source}) \n  %U\n "))))
-
-    (org-clock-persistence-insinuate)
-    ;; Separate drawers for clocking and logs
-    (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
-    ;; Save clock data and state changes and notes in the LOGBOOK drawer
-    (setq org-clock-into-drawer t)
-    ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
-    (setq org-clock-out-remove-zero-time-clocks t)
-    ;; Clock out when moving task to a done state
-    (setq org-clock-out-when-done t)
-    ;; Save the running clock and all clock history when exiting Emacs, load it on startup
-    (setq org-clock-persist t)
-    ;; Do not prompt to resume an active clock
-    (setq org-clock-persist-query-resume nil)
-    ;; Include current clocking task in clock reports
-    (setq org-clock-report-include-clocking-task t)
-
-    (setq bh/keep-clock-running nil)
-
-    (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
-  #+END_SRC
-
-  Set the default tags: (EXAMPLE for now, since this is incomplete)
-  #+BEGIN_EXAMPLE emacs-lisp
-  (setq org-tag-alist '((:startgroup) ("stem") ;;; Subject matter
-			(:grouptags) ("math") ("tech")
-			(:endgroup)
-
+    	    ("DONE" :foreground "lawn green" :weight bold)
+    	    ("AFTER" :foreground "dark turquoise" :weight ultra-bold)
+    	    ("WAIT" :foreground "orchid")
+    	    ("FUZZY" :foreground "khaki" :weight bold)
+    	    ("PROJECT" :foreground "orange" :box t)
+    	    ("CANCELLED" :foreground "tomato")
+    	    ("TODO" :foreground "black")
+    	    ("WAITING" :foreground "black")
+    	    ("SOMEDAY" :foreground "black")
+    	    ("HOLD" :foreground "black")
+    	    ("MEETING" :foreground "black")
+    	    ("PHONE" :foreground "black"))))
 			(:startgroup) ("socsci")
 			(:grouptags) ("newlang") ("uselang") ("civic")
 			(:endgroup)
 
-			(:startgroup) ("liesure")
-			(:grouptags) ("literature") ("art") ("puzzles") ("music")
-			(:endgroup)
-
+#+END_SRC
 			("@home") ("@work") ("@library") ("@anki") ;; Context
 			("@morning") ("@evening")
 
-			(:startgroup) ("studymaterial") ;;; Type of thing
-			(:grouptags) ("book") ("article") ("recording")
-			("meeting") ("")
-			(:endgroup)
-
+*** Tag hierarchy
 			(:startgroup) ("note")
 			(:grouptags) ("toself") ("transcript") ("idea")
 			("codesnip") ("bookmark")
 			(:endgroup)
 
-			(:startgroup)))
-#+END_EXAMPLE
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq org-tag-alist '((:startgroup) ("stem") ;;; Subject matter
+			(:grouptags) ("math") ("tech")
+			(:endgroup)
+
+#+END_SRC
+
+** Agenda
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-include-diary t)
+  (setq org-agenda-dim-blocked-tasks t)
+
+  (setq org-agenda-custom-commands
+	(quote (("N" "Notes" tags "NOTE"
+		 ((org-agenda-overriding-header "Notes")
+		  (org-tags-match-list-sublevels t)))
+		("h" "Habits" tags-todo "STYLE=\"habit\""
+		 ((org-agenda-overriding-header "Habits")
+		  (org-agenda-sorting-strategy
+		   '(todo-state-down effort-up category-keep))))
+		(" " "Agenda"
+		 ((agenda "" ((org-agenda-span 1)))
+		  (tags "refile/!"
+			((org-agenda-overriding-header "To refile")
+			 (org-tags-match-list-sublevels nil)))
+		  (tags-todo "TODO=\"NEXT\"&STYLE<>{habit}&LECT_PAGES<>{.+}/!"
+			((org-agenda-overriding-header "Next actions")
+			 (org-tags-match-list-sublevels nil)))
+		  (todo "FUZZY"
+			((org-agenda-overriding-header "To clarify")
+			 (org-tags-match-list-sublevels nil)
+			 (org-agenda-sorting-strategy '(category-keep))))))
+		("o" "Old Agenda"
+		 ((agenda "" ((org-agenda-span 1)))
+		  (tags "refile"
+			((org-agenda-overriding-header "Tasks to Refile")
+			 (org-tags-match-list-sublevels nil)))
+		  (tags-todo "-CANCELLED/!"
+			     ((org-agenda-overriding-header "Stuck Projects")
+			      (org-agenda-skip-function 'bh/skip-non-stuck-projects)
+			      (org-agenda-sorting-strategy
+			       '(category-keep))))
+		  (tags-todo "-AFTER"
+			     ((org-agenda-overriding-header "Projects")
+			      (org-agenda-skip-function 'bh/skip-non-projects)
+			      (org-tags-match-list-sublevels 'indented)
+			      (org-agenda-sorting-strategy
+			       '(category-keep))))
+		  (tags-todo "-CANCELLED/!NEXT"
+			     ((org-agenda-overriding-header (concat "Project Next Tasks"
+								    (if bh/hide-scheduled-and-waiting-next-tasks
+									""
+								      " (including WAITING and SCHEDULED tasks)")))
+			      (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
+			      (org-tags-match-list-sublevels t)
+			      (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-sorting-strategy
+			       '(todo-state-down effort-up category-keep))))
+		  (tags-todo "-refile-CANCELLED-WAITING-HOLD/!"
+			     ((org-agenda-overriding-header (concat "Project Subtasks"
+								    (if bh/hide-scheduled-and-waiting-next-tasks
+									""
+								      " (including WAITING and SCHEDULED tasks)")))
+			      (org-agenda-skip-function 'bh/skip-non-project-tasks)
+			      (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-sorting-strategy
+			       '(category-keep))))
+		  (tags-todo "-refile-CANCELLED-WAITING-HOLD/!"
+			     ((org-agenda-overriding-header (concat "Standalone Tasks"
+								    (if bh/hide-scheduled-and-waiting-next-tasks
+									""
+								      " (including WAITING and SCHEDULED tasks)")))
+			      (org-agenda-skip-function 'bh/skip-project-tasks)
+			      (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-sorting-strategy
+			       '(category-keep))))
+		  (tags-todo "-CANCELLED+WAITING|HOLD/!"
+			     ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks"
+								    (if bh/hide-scheduled-and-waiting-next-tasks
+									""
+								      " (including WAITING and SCHEDULED tasks)")))
+			      (org-agenda-skip-function 'bh/skip-non-tasks)
+			      (org-tags-match-list-sublevels nil)
+			      (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+			      (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
+		  (tags "-refile/"
+			((org-agenda-overriding-header "Tasks to Archive")
+			 (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
+			 (org-tags-match-list-sublevels nil))))
+		 nil))))
+
+
+  (org-clock-persistence-insinuate)
+  ;; Separate drawers for clocking and logs
+  (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
+  ;; Save clock data and state changes and notes in the LOGBOOK drawer
+  (setq org-clock-into-drawer t)
+  ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+  (setq org-clock-out-remove-zero-time-clocks t)
+  ;; Clock out when moving task to a done state
+  (setq org-clock-out-when-done t)
+  ;; Save the running clock and all clock history when exiting Emacs, load it on startup
+  (setq org-clock-persist t)
+  ;; Do not prompt to resume an active clock
+  (setq org-clock-persist-query-resume nil)
+  ;; Include current clocking task in clock reports
+  (setq org-clock-report-include-clocking-task t)
+
+  (setq bh/keep-clock-running nil)
+
+  (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
+#+END_SRC
+** Editor
+** Capture
+#+BEGIN_SRC emacs-lisp
+  (setq org-capture-templates
+	(quote (("t" "Task capture" entry (file "~/org/Capture.org")
+		 "* FUZZY %?\n  %U\n%a\n" :clock-in t :clock-resume t)
+		("r" "respond" entry (file "~/org/Capture.org")
+		 "* NEXT Respond to %:from on %:subject\n  SCHEDULED: %t\n  %?"
+		 :clock-in t :clock-resume t :immediate-finish t)
+		("n" "note" entry (file "~/org/Capture.org")
+		 "* %? :note:\n  %U\n" :clock-in t :clock-resume t)
+		("j" "Journal" entry (file+datetree "~/org/Journal.org")
+		 "* %U\n  %?\n" :clock-in t :clock-resume t)
+		("w" "org-protocol" entry (file "~/org/Capture.org")
+		 "* FUZZY Review %c\n%U\n%?%(bc/refocus)" :immediate-finish t)
+		("v" "Vocabulary" checkitem (file+headline "~/org/Vocab.org" "Vocabulary")
+		 "- [ ] %^{The word} (%^{Source}) \n  %U\n "))))
+#+END_SRC
 
 * Environment
 #+BEGIN_SRC emacs-lisp
@@ -765,6 +756,7 @@ Org-related and man-related commands, and I disable completely here.
 (set-keyboard-coding-system 'utf-8)
 (set-language-environment 'utf-8)
 (setq system-time-locale "hu_HU.utf8")
+(setenv "PYTHONIOENCODING" "utf-8")
 (setq ispell-program-name "/usr/bin/hunspell")
 
 (setq calendar-christian-all-holidays-flag t)
@@ -777,6 +769,7 @@ Org-related and man-related commands, and I disable completely here.
 (setq display-time-day-and-date t)
 (setq display-time-mode t)
 #+END_SRC
+
 * Appearance
 #+BEGIN_SRC emacs-lisp
 (load-theme 'tsdh-dark)
@@ -796,7 +789,7 @@ Org-related and man-related commands, and I disable completely here.
   (global-set-key "\C-ca" 'org-agenda)
   (define-key org-agenda-mode-map "Y" 'org-agenda-todo-yesterday)
   (define-key org-mode-map "\C-c\S-y" 'org-todo-yesterday)
-  (global-set-key (kbd "<f4>") 'simple-mpc-toggle)
+  (global-set-key (kbd "<f4>") (lambda () (interactive) (simple-mpc-toggle) (shell-command "mpc current")))
   (global-set-key (kbd "<f6>") (lambda () (interactive) (simple-mpc-next) (shell-command "mpc current")))
   (global-set-key (kbd "<f5>") (lambda () (interactive) (simple-mpc-prev) (shell-command "mpc current")))
   (eval-after-load 'org (progn
