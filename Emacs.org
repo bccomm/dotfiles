@@ -52,7 +52,7 @@
 (add-to-list 'load-path "~/build/s.el")
 (add-to-list 'load-path "~/build/undo-tree")
 (add-to-list 'load-path "~/build/emacs-w3m")
-(add-to-list 'load-path "~/build/notmuch/emacs")
+(add-to-list 'load-path "~/build/mu/mu4e")
 
 (require 'saveplace)
 (require 'org-loaddefs)
@@ -66,17 +66,14 @@
 (require 'simple-mpc)
 (require 's)
 (require 'undo-tree)
+(require 'w3m-load)
+(require 'mu4e)
 #+END_SRC
   
 * Helper functions
   Many of these were taken from Bernt Hansen's site, [[http://doc.norang.ca/org-mode.html][Organize Your
   Life in Plain Text]]. I don't use automatic tagging the way he does,
   and some of my concepts are different. 
-
-  A project is anything that satisfies these conditions:
-  1. It has a =LECT_PAGES= property or has at least one subtask
-  2. It has any of the defined todo keywords
-  3. Its keyword is not "SOMEDAY"
 
   A task is anything with a todo keyword which does not have a
   LECT_PAGES property
@@ -544,10 +541,6 @@ Org-related and man-related commands, and I disable completely here.
       			  ("\\.pdf\\'" . "evince %s"))))
     (setq org-log-into-drawer t)
 
-
-  I used to use Bernt Hansen's configuration, including his choice of
-  keywords, but now I have my own.
-
 #+END_SRC
 
 ** Definitions
@@ -577,6 +570,14 @@ next action and can't become one in its current form, it's not well
 I keep the old keywords around so I can search archived files and look
 at files people send me without too much fuss.
 
+A project can be defined
+  - Implicitly, if:
+    1. it has a =LECT_PAGES= property or has at least one subtask
+    2. it has any of the defined todo keywords
+    3. its keyword is not "SOMEDAY"
+  - Explicitly, if
+    1. it has the keyword "PROJECT"
+
 #+BEGIN_SRC emacs-lisp
     (setq org-todo-keywords (quote ((sequence "WAITING" "HOLD" "SOMEDAY" "TODO"
         				      "|" "PHONE" "MEETING")
@@ -602,18 +603,26 @@ at files people send me without too much fuss.
 			(:endgroup)
 
 #+END_SRC
-			("@home") ("@work") ("@library") ("@anki") ;; Context
-			("@morning") ("@evening")
 
 *** Tag hierarchy
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq org-tag-alist '((:startgroup) ("stem") ;;; Subject matter
+			(:grouptags) ("math") ("tech")
+			(:endgroup)
+
 			(:startgroup) ("note")
 			(:grouptags) ("toself") ("transcript") ("idea")
 			("codesnip") ("bookmark")
 			(:endgroup)
 
-#+BEGIN_SRC emacs-lisp :tangle no
-  (setq org-tag-alist '((:startgroup) ("stem") ;;; Subject matter
-			(:grouptags) ("math") ("tech")
+			(:startgroup) ("liesure")
+			(:grouptags) ("literature") ("art") ("puzzles") ("music")
+			(:endgroup)
+
+			(:startgroup) ("studymaterial") ;;; Type of thing
+			(:grouptags) ("book") ("article") ("recording")
+			("meeting") ("")
 			(:endgroup)
 
 #+END_SRC
