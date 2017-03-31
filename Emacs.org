@@ -814,45 +814,45 @@ A project can be defined
 (setq tramp-default-method "scp")
 #+END_SRC
 * Mail
-  #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (setq user-mail-address "mano155@gmail.com"
-  	user-full-name  "Bruce V Chiarelli"
-  	message-signature (concat "Bruce V. Chiarelli\n" "http://github.com/bccomm\n")
-  	message-send-mail-function 'smtpmail-send-it
-  	starttls-use-gnutls t
-  	smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-  	smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
-  	smtpmail-default-smtp-server "smtp.gmail.com"
-  	smtpmail-smtp-server "smtp.gmail.com"
-  	smtpmail-smtp-service 587
-  	smtpmail-debug-info t
-  	mail-user-agent 'mu4e-user-agent)
+	user-full-name  "Bruce V Chiarelli"
+	message-signature (concat "Bruce V. Chiarelli\n" "http://github.com/bccomm\n")
+	message-send-mail-function 'smtpmail-send-it
+	starttls-use-gnutls t
+	smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+	smtpmail-auth-credentials (expand-file-name "~/.authinfo.gpg")
+	smtpmail-default-smtp-server "smtp.gmail.com"
+	smtpmail-smtp-server "smtp.gmail.com"
+	smtpmail-smtp-service 587
+	smtpmail-debug-info t
+	mail-user-agent 'mu4e-user-agent)
 
   ;;; That'd be "Elküldött levelek" if offlineimap did proper unicode.
   (setq mu4e-mu-binary "/home/sh0e/build/mu/mu/mu"
-        mu4e-maildir "/home/sh0e/Mail"
-        mu4e-sent-messages-behavior 'delete
-        mu4e-drafts-folder "/[Gmail].Piszkozatok"
-        mu4e-sent-folder   "/[Gmail].Elk&APw-ld&APY-tt levelek"
-        mu4e-trash-folder  "/[Gmail].Kuka"
-        mu4e-maildir-shortcuts '(("/INBOX"             . ?i)
-      			     ("/[Gmail].Elk&APw-ld&APY-tt levelek" . ?s)
-      			     ("/[Gmail].Kuka"     . ?t)))
+	mu4e-maildir "/home/sh0e/Mail"
+	mu4e-sent-messages-behavior 'delete
+	mu4e-drafts-folder "/[Gmail].Piszkozatok"
+	mu4e-sent-folder   "/[Gmail].Elk&APw-ld&APY-tt levelek"
+	mu4e-trash-folder  "/[Gmail].Kuka"
+	mu4e-maildir-shortcuts '(("/INBOX"             . ?i)
+				 ("/[Gmail].Elk&APw-ld&APY-tt levelek" . ?s)
+				 ("/[Gmail].Kuka"     . ?t)))
 
   (defvar bc/gnu-debbugs-url
-      "https://debbugs.gnu.org/cgi/bugreport.cgi?bug=%s"
-      "The url for GNU debbugs reports")
+    "https://debbugs.gnu.org/cgi/bugreport.cgi?bug=%s"
+    "The url for GNU debbugs reports")
 
   (defun bc/bug-reference-setup ()
-      "Set up bug-reference-mode for mu4e messages. Uses the list
+    "Set up bug-reference-mode for mu4e messages. Uses the list
   name of the message at point."
     (let ((listname (plist-get (mu4e-message-at-point) (quote :mailing-list))))
       (when listname
-        (pcase listname
-            ("bug-gnu-emacs.gnu.org" (setq bug-reference-url-format bc/gnu-debbugs-url))
-            ("emacs-devel.gnu.org" (setq bug-reference-url-format bc/gnu-debbugs-url))
-            ("emacs-orgmode.gnu.org" (setq bug-reference-url-format bc/gnu-debbugs-url)))
-        (bug-reference-mode))))
+	(pcase listname
+	  ("bug-gnu-emacs.gnu.org" (setq bug-reference-url-format bc/gnu-debbugs-url))
+	  ("emacs-devel.gnu.org" (setq bug-reference-url-format bc/gnu-debbugs-url))
+	  ("emacs-orgmode.gnu.org" (setq bug-reference-url-format bc/gnu-debbugs-url)))
+	(bug-reference-mode))))
 
   (add-hook 'mu4e-view-mode-hook 'bc/bug-reference-setup)
-  #+END_SRC
+#+END_SRC
