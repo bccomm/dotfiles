@@ -492,7 +492,7 @@ Org-related and man-related commands, and I disable completely here.
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "%d/%d ")
   #+BEGIN_SRC emacs-lisp
-    (setq browse-url-browser-function 'w3m)
+    (setq browse-url-browser-function 'w3m-goto-url-new-session)
   #+END_SRC
 
 (setq ivy-initial-inputs-alist '())
@@ -830,18 +830,19 @@ A project can be defined
 
   ;;; That'd be "Elküldött levelek" if offlineimap did proper unicode.
   (setq mu4e-mu-binary "/home/sh0e/build/mu/mu/mu"
-	mu4e-maildir "/home/sh0e/Mail"
+	mu4e-maildir "/media/Storage/Mail"
 	mu4e-sent-messages-behavior 'delete
 	mu4e-drafts-folder "/[Gmail].Piszkozatok"
 	mu4e-sent-folder   "/[Gmail].Elk&APw-ld&APY-tt levelek"
 	mu4e-trash-folder  "/[Gmail].Kuka"
 	mu4e-maildir-shortcuts '(("/INBOX"             . ?i)
 				 ("/[Gmail].Elk&APw-ld&APY-tt levelek" . ?s)
-				 ("/[Gmail].Kuka"     . ?t)))
+				 ("/[Gmail].Kuka"     . ?t))
+	shr-color-visible-luminance-min 80)
 
   (defvar bc/gnu-debbugs-url
     "https://debbugs.gnu.org/cgi/bugreport.cgi?bug=%s"
-    "The url for GNU debbugs reports")
+    "The URL for GNU debbugs reports")
 
   (defun bc/bug-reference-setup ()
     "Set up bug-reference-mode for mu4e messages. Uses the list
