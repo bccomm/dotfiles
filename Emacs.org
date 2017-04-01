@@ -491,10 +491,6 @@ Org-related and man-related commands, and I disable completely here.
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "%d/%d ")
-  #+BEGIN_SRC emacs-lisp
-    (setq browse-url-browser-function 'w3m-goto-url-new-session)
-  #+END_SRC
-
 (setq ivy-initial-inputs-alist '())
 (add-hook 'after-init-hook 'global-company-mode)
     (setq org-default-notes-file (concat org-directory "/notes.org"))
@@ -598,10 +594,6 @@ A project can be defined
     	    ("HOLD" :foreground "black")
     	    ("MEETING" :foreground "black")
     	    ("PHONE" :foreground "black"))))
-			(:startgroup) ("socsci")
-			(:grouptags) ("newlang") ("uselang") ("civic")
-			(:endgroup)
-
 #+END_SRC
 
 *** Tag hierarchy
@@ -611,6 +603,9 @@ A project can be defined
 			(:grouptags) ("math") ("tech")
 			(:endgroup)
 
+			(:startgroup) ("socsci")
+			(:grouptags) ("newlang") ("uselang") ("civic")
+			(:endgroup)
 			(:startgroup) ("note")
 			(:grouptags) ("toself") ("transcript") ("idea")
 			("codesnip") ("bookmark")
@@ -826,7 +821,8 @@ A project can be defined
 	smtpmail-smtp-server "smtp.gmail.com"
 	smtpmail-smtp-service 587
 	smtpmail-debug-info t
-	mail-user-agent 'mu4e-user-agent)
+	mail-user-agent 'mu4e-user-agent
+	browse-url-browser-function 'w3m-goto-url-new-session)
 
   ;;; That'd be "Elküldött levelek" if offlineimap did proper unicode.
   (setq mu4e-mu-binary "/home/sh0e/build/mu/mu/mu"
