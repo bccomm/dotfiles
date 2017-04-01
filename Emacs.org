@@ -824,16 +824,15 @@ A project can be defined
 	mail-user-agent 'mu4e-user-agent
 	browse-url-browser-function 'w3m-goto-url-new-session)
 
-  ;;; That'd be "Elküldött levelek" if offlineimap did proper unicode.
   (setq mu4e-mu-binary "/home/sh0e/build/mu/mu/mu"
 	mu4e-maildir "/media/Storage/Mail"
 	mu4e-sent-messages-behavior 'delete
-	mu4e-drafts-folder "/[Gmail].Piszkozatok"
-	mu4e-sent-folder   "/[Gmail].Elk&APw-ld&APY-tt levelek"
-	mu4e-trash-folder  "/[Gmail].Kuka"
-	mu4e-maildir-shortcuts '(("/INBOX"             . ?i)
-				 ("/[Gmail].Elk&APw-ld&APY-tt levelek" . ?s)
-				 ("/[Gmail].Kuka"     . ?t))
+	mu4e-drafts-folder "/drafts"
+	mu4e-sent-folder   "/sent"
+	mu4e-trash-folder  "/trash"
+	mu4e-maildir-shortcuts '(("/archive"             . ?i)
+				 ("/sent" . ?s)
+				 ("/trash"     . ?t))
 	shr-color-visible-luminance-min 80)
 
   (defvar bc/gnu-debbugs-url
