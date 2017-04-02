@@ -741,7 +741,7 @@ A project can be defined
 		 "* FUZZY %?\n  %U\n%a\n" :clock-in t :clock-resume t)
 		("r" "Respond" entry (file "~/org/Capture.org")
 		 "* NEXT Respond to %:from \n  SCHEDULED: %t\n  %a\n"
-		 :clock-in t :clock-resume t :immediate-finish t)
+		 :immediate-finish t)
 		("n" "note" entry (file "~/org/Capture.org")
 		 "* %? :note:\n  %U\n" :clock-in t :clock-resume t)
 		("j" "Journal" entry (file+datetree "~/org/Journal.org")
