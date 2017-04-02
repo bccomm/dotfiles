@@ -753,7 +753,7 @@ A project can be defined
 		 "- %? %u :: \n")
 		("f" "Negative cognitions" checkitem
 		 (file+headline "~/org/Journal.org" "Respond to negative cognitions")
-		 "- %U Thought: %?\n\t- [ ] Response: \n" :prepend t))))
+		 "- %U Thought: %?\n  - [ ] Response: \n" :prepend t))))
 #+END_SRC
 
 * Environment
