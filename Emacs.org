@@ -782,7 +782,7 @@ A project can be defined
 #+BEGIN_SRC emacs-lisp
 (load-theme 'tsdh-dark)
 
-(set-frame-font "-PfEd-Fantasque Sans Mono-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
+(set-frame-font "-CYEL-Iosevka Slab-normal-normal-normal-*-12-*-*-*-d-0-iso10646-1")
 
 (display-time-mode 1)
 (column-number-mode 1)
