@@ -813,6 +813,7 @@ A project can be defined
   (setq user-mail-address "mano155@gmail.com"
 	user-full-name  "Bruce V Chiarelli"
 	message-signature (concat "Bruce V. Chiarelli\n" "http://github.com/bccomm\n")
+	mu4e-compose-signature (eval message-signature)
 	message-send-mail-function 'smtpmail-send-it
 	starttls-use-gnutls t
 	smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
@@ -850,5 +851,6 @@ A project can be defined
 	  ("emacs-orgmode.gnu.org" (setq bug-reference-url-format bc/gnu-debbugs-url)))
 	(bug-reference-mode))))
 
+  (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign-pgpmime)
   (add-hook 'mu4e-view-mode-hook 'bc/bug-reference-setup)
 #+END_SRC
