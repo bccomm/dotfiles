@@ -798,8 +798,7 @@ A project can be defined
   (global-set-key (kbd "<f5>") (lambda () (interactive) (simple-mpc-prev) (shell-command "mpc current")))
   (eval-after-load 'org (progn
 			  (org-defkey org-mode-map "\C-c\\" 'org-lect-update-today)
-			  (org-defkey org-agenda-mode-map "\C-c\\"
-				      'org-lect-agenda-update-today) t))
+			  (org-defkey org-agenda-mode-map "\C-c\\" 'org-lect-agenda-update-today) t))
 
   (global-set-key (kbd "\C-z") nil)
 #+END_SRC
