@@ -739,8 +739,8 @@ A project can be defined
   (setq org-capture-templates
 	(quote (("t" "Task capture" entry (file "~/org/Capture.org")
 		 "* FUZZY %?\n  %U\n%a\n" :clock-in t :clock-resume t)
-		("r" "respond" entry (file "~/org/Capture.org")
-		 "* NEXT Respond to %:from \n  SCHEDULED: %t\n  %a\n  %?"
+		("r" "Respond" entry (file "~/org/Capture.org")
+		 "* NEXT Respond to %:from \n  SCHEDULED: %t\n  %a\n"
 		 :clock-in t :clock-resume t :immediate-finish t)
 		("n" "note" entry (file "~/org/Capture.org")
 		 "* %? :note:\n  %U\n" :clock-in t :clock-resume t)
@@ -748,8 +748,12 @@ A project can be defined
 		 "* %U\n  %?\n" :clock-in t :clock-resume t)
 		("w" "org-protocol" entry (file "~/org/Capture.org")
 		 "* FUZZY Review %c\n%U\n%?%(bc/refocus)" :immediate-finish t)
-		("v" "Vocabulary" checkitem (file+headline "~/org/Vocab.org" "Vocabulary")
-		 "- [ ] %^{The word} (%^{Source}) \n  %U\n "))))
+		("v" "Vocabulary" checkitem
+		 (file+headline "~/org/Vocab.org" "Vocabulary")
+		 "- %? %u :: \n")
+		("f" "Negative cognitions" checkitem
+		 (file+headline "~/org/Journal.org" "Respond to negative cognitions")
+		 "- %U Thought: %?\n\t- [ ] Response: \n" :prepend t))))
 #+END_SRC
 
 * Environment
