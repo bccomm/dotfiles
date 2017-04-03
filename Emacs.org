@@ -780,14 +780,14 @@ A project can be defined
 
 * Appearance
 #+BEGIN_SRC emacs-lisp
-(load-theme 'tsdh-dark)
+  (load-theme 'tsdh-dark)
 
-(set-frame-font "-CYEL-Iosevka Slab-normal-normal-normal-*-12-*-*-*-d-0-iso10646-1")
+  (set-frame-font "-CYEL-Iosevka Slab-normal-normal-normal-*-11-*-*-*-d-0-iso10646-1")
 
-(display-time-mode 1)
-(column-number-mode 1)
-(show-paren-mode 1)
-(tool-bar-mode -1)
+  (display-time-mode 1)
+  (column-number-mode 1)
+  (show-paren-mode 1)
+  (tool-bar-mode -1)
 #+END_SRC
 
 * Keybindings
