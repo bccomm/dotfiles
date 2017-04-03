@@ -636,7 +636,7 @@ A project can be defined
 		  (org-agenda-sorting-strategy
 		   '(todo-state-down effort-up category-keep))))
 		(" " "Agenda"
-		 ((agenda "" ((org-agenda-span 1)))
+		 ((agenda "" ((org-agenda-span 1) (org-agenda-sorting-strategy '(habit-up category-keep))))
 		  (tags "refile/!"
 			((org-agenda-overriding-header "To refile")
 			 (org-tags-match-list-sublevels nil)))
