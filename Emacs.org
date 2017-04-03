@@ -783,6 +783,7 @@ A project can be defined
   (load-theme 'tsdh-dark)
 
   (set-frame-font "-CYEL-Iosevka Slab-normal-normal-normal-*-11-*-*-*-d-0-iso10646-1")
+  (define-key special-event-map [config-changed-event] 'ignore)
 
   (display-time-mode 1)
   (column-number-mode 1)
