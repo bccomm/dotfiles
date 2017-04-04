@@ -12,7 +12,6 @@ if [ $(hostname -s) == "topd0g" ]; then
     devmon &
     devmon --mount /dev/sdb1
 
-    offlineimap 2>&1 > /dev/null &
     MPD_HOST=/home/sh0e/.mpd/socket
     mpd ~/dotfiles/mpd.conf && export MPD_HOST
 fi
