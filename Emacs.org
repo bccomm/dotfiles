@@ -743,7 +743,7 @@ A project can be defined
 	(quote (("t" "Task capture" entry (file "~/org/Capture.org")
 		 "* FUZZY %?\n  %U\n%a\n" :clock-in t :clock-resume t)
 		("r" "Respond" entry (file "~/org/Capture.org")
-		 "* NEXT Respond to %:from \n  SCHEDULED: %t\n  %a\n"
+		 "* NEXT Respond to %:fromname \n  SCHEDULED: %t\n  %a\n"
 		 :immediate-finish t)
 		("n" "note" entry (file "~/org/Capture.org")
 		 "* %? :note:\n  %U\n" :clock-in t :clock-resume t)
