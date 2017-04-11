@@ -53,6 +53,7 @@
   (add-to-list 'load-path "~/build/undo-tree")
   (add-to-list 'load-path "~/build/emacs-w3m")
   (add-to-list 'load-path "~/build/mu/mu4e")
+  (add-to-list 'load-path "~/build/tablist")
 
   (require 'saveplace)
   (require 'org-loaddefs)
@@ -71,6 +72,8 @@
   (require 'org-mu4e)
   (require 'bbdb-loaddefs)
   (require 'bbdb-mu4e)
+  (require 'tablist)
+  (pdf-tools-install)
 #+END_SRC
   
 * Helper functions
