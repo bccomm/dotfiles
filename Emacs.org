@@ -512,8 +512,8 @@ Org-related and man-related commands, and I disable completely here.
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'info
       (info-initialize)
-      (add-to-list 'Info-directory-list
-  		 "~/build/magit/Documentation/"))
+      (add-to-list 'Info-directory-list "~/build/magit/Documentation/")
+      (add-to-list 'Info-directory-list "~/build/org-mode/doc/"))
   #+END_SRC
 
     (setq org-habit-graph-column 60)
