@@ -636,6 +636,7 @@ A project can be defined
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-include-diary t)
   (setq org-agenda-dim-blocked-tasks t)
+  (setq org-agenda-window-setup 'current-window)
 
   (setq org-agenda-custom-commands
 	(quote (("N" "Notes" tags "NOTE"
@@ -646,7 +647,7 @@ A project can be defined
 		  (org-agenda-sorting-strategy
 		   '(todo-state-down effort-up category-keep))))
 		(" " "Agenda"
-		 ((agenda "" ((org-agenda-span 1) (org-agenda-sorting-strategy '(habit-up category-keep))))
+		 ((agenda "" ((org-agenda-span 1) (org-agenda-sorting-strategy '(habit-up priority-up))))
 		  (tags "refile/!"
 			((org-agenda-overriding-header "To refile")
 			 (org-tags-match-list-sublevels nil)))
@@ -721,7 +722,6 @@ A project can be defined
 			 (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
 			 (org-tags-match-list-sublevels nil))))
 		 nil))))
-
 
   (org-clock-persistence-insinuate)
   ;; Separate drawers for clocking and logs
