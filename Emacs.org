@@ -497,19 +497,20 @@ current selection and total count. By default,
 Org-related and man-related commands, and I disable completely here.
 
 #+BEGIN_SRC emacs-lisp
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "%d/%d ")
-(setq ivy-initial-inputs-alist '())
-(add-hook 'after-init-hook 'global-company-mode)
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "%d/%d ")
+  (setq ivy-initial-inputs-alist '())
+  (add-hook 'after-init-hook 'global-company-mode)
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (org-babel-do-load-languages 'org-babel-load-languages
+			       (quote ((emacs-lisp . t) (C . t)
+				       (python . t) (ditaa . t)
+				       (shell . t)
+				       (scheme . t))))
+
 
 #+END_SRC
-    (org-babel-do-load-languages 'org-babel-load-languages
-      			   (quote ((emacs-lisp . t) (C . t)
-      				   (python . t) (ditaa . t)
-      				   (shell . t)
-    				   (scheme . t))))
 
 * Bookmarks
   #+BEGIN_SRC emacs-lisp
