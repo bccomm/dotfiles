@@ -54,6 +54,7 @@
   (add-to-list 'load-path "~/build/emacs-w3m")
   (add-to-list 'load-path "~/build/mu/mu4e")
   (add-to-list 'load-path "~/build/tablist")
+  (add-to-list 'load-path "~/build/elpy")
 
   (require 'saveplace)
   (require 'org-loaddefs)
@@ -73,6 +74,8 @@
   (require 'bbdb-loaddefs)
   (require 'bbdb-mu4e)
   (require 'tablist)
+  (require 'elpy)
+  (elpy-enable)
   (pdf-tools-install)
 #+END_SRC
   
