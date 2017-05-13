@@ -848,6 +848,7 @@ A project can be defined
 	mu4e-maildir-shortcuts '(("/archive"             . ?i)
 				 ("/sent" . ?s)
 				 ("/trash"     . ?t))
+	mu4e-change-filenames-when-moving t
 	shr-color-visible-luminance-min 80)
 
   (defvar bc/gnu-debbugs-url
