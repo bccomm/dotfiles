@@ -637,7 +637,7 @@ A project can be defined
 		("j" "Journal" entry (file+datetree "~/org/Journal.org")
 		 "* %U\n  %?\n" :clock-in t :clock-resume t)
 		("w" "org-protocol" entry (file "~/org/Capture.org")
-		 "* FUZZY Review %c\n%U\n%%(bc/refocus)" :immediate-finish t)
+		 "* FUZZY Review %c\n%U\n%(bc/refocus)" :immediate-finish t)
 		("v" "Vocabulary" checkitem
 		 (file+headline "~/org/Learning/AnkiBacklog.org" "Vocabulary")
 		 "- %? %u :: \n")
