@@ -672,7 +672,7 @@ A project can be defined
 #+BEGIN_SRC emacs-lisp
   (load-theme 'tsdh-dark)
 
-  (set-frame-font "-CYEL-Iosevka Slab-normal-normal-normal-*-11-*-*-*-d-0-iso10646-1")
+  (set-frame-font "-CYEL-Iosevka Slab-normal-normal-normal-*-13-*-*-*-d-0-iso10646-1")
   (define-key special-event-map [config-changed-event] 'ignore)
 
   (display-time-mode 1)
