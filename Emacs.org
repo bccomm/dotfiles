@@ -391,25 +391,26 @@ Org-related and man-related commands, and I disable completely here.
 * Org mode
   
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'org-mode-hook 'turn-on-auto-fill)
-    (require 'org-protocol)
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
+  (require 'org-protocol)
 
-    (setq org-agenda-files (quote ("/home/sh0e/org/" "/home/sh0e/build/org-lect")))
-    (setq org-refile-targets
-      '(("/home/sh0e/org/Career.org" . (:maxlevel . 6))
-        ("/home/sh0e/org/Personal.org" . (:maxlevel . 6))
-        ("/home/sh0e/org/Learning.org" . (:maxlevel . 6))
-        ("/home/sh0e/org/Liesure.org" . (:maxlevel . 6))
-        ("/home/sh0e/org/Meta.org" . (:maxlevel . 6))))
+  (setq org-agenda-files (quote ("/home/sh0e/org/" "/home/sh0e/build/org-lect")))
+  (setq org-refile-targets
+    '(("/home/sh0e/org/Career.org" . (:maxlevel . 6))
+      ("/home/sh0e/org/Personal.org" . (:maxlevel . 6))
+      ("/home/sh0e/org/Learning.org" . (:maxlevel . 6))
+      ("/home/sh0e/org/Liesure.org" . (:maxlevel . 6))
+      ("/home/sh0e/org/Meta.org" . (:maxlevel . 6))
+      ("/home/sh0e/org/Learning/AnkiBacklog.org" . (:maxlevel . 6))))
 
-    (setq org-directory "~/org")
-    (setq org-drill-optimal-factor-matrix
-      (quote ((1 (2.5 . 4.0) (1.7000000000000002 . 3.44)))))
-    (setq org-file-apps (quote ((auto-mode . emacs)
-      			  ("\\.mm\\'" . default)
-      			  ("\\.x?html?\\'" . default)
-      			  ("\\.pdf\\'" . "evince %s"))))
-    (setq org-log-into-drawer t)
+  (setq org-directory "~/org")
+  (setq org-drill-optimal-factor-matrix
+    (quote ((1 (2.5 . 4.0) (1.7000000000000002 . 3.44)))))
+  (setq org-file-apps (quote ((auto-mode . emacs)
+      			("\\.mm\\'" . default)
+      			("\\.x?html?\\'" . default)
+      			("\\.pdf\\'" . "evince %s"))))
+  (setq org-log-into-drawer t)
 
 #+END_SRC
 
@@ -623,7 +624,7 @@ A project can be defined
 		("w" "org-protocol" entry (file "~/org/Capture.org")
 		 "* FUZZY Review %c\n%U\n%%(bc/refocus)" :immediate-finish t)
 		("v" "Vocabulary" checkitem
-		 (file+headline "~/org/Vocab.org" "Vocabulary")
+		 (file+headline "~/org/Learning/AnkiBacklog.org" "Vocabulary")
 		 "- %? %u :: \n")
 		("f" "Negative cognitions" checkitem
 		 (file+headline "~/org/Journal.org" "Respond to negative cognitions")
