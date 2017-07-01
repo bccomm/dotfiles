@@ -55,6 +55,8 @@
   (add-to-list 'load-path "~/build/mu/mu4e")
   (add-to-list 'load-path "~/build/tablist")
   (add-to-list 'load-path "~/build/elpy")
+  (add-to-list 'load-path "~/build/pyvenv")
+  (add-to-list 'load-path "~/build/Highlight-Indentation-for-Emacs")
 
   (require 'saveplace)
   (require 'org-loaddefs)
@@ -768,24 +770,25 @@ A project can be defined
 
 * Environment
 #+BEGIN_SRC emacs-lisp
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-language-environment 'utf-8)
-(setq system-time-locale "hu_HU.utf8")
-(setenv "PYTHONIOENCODING" "utf-8")
-(setq ispell-program-name "/usr/bin/hunspell")
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-language-environment 'utf-8)
+  (setq system-time-locale "hu_HU.utf8")
+  (setenv "PYTHONIOENCODING" "utf-8")
+  (setq ispell-program-name "/usr/bin/hunspell")
 
-(setq calendar-christian-all-holidays-flag t)
-(setq calendar-hebrew-all-holidays-flag t)
-(setq calendar-islamic-all-holidays-flag t)
-(setq calendar-latitude 47.37341)
-(setq calendar-longitude -122.255334)
+  (setq calendar-christian-all-holidays-flag t)
+  (setq calendar-hebrew-all-holidays-flag t)
+  (setq calendar-islamic-all-holidays-flag t)
+  (setq calendar-latitude 47.37341)
+  (setq calendar-longitude -122.255334)
 
-(setq display-time-24hr-format t)
-(setq display-time-day-and-date t)
-(setq display-time-mode t)
+  (setq display-time-24hr-format t)
+  (setq display-time-day-and-date t)
+  (setq display-time-mode t)
+  (setq Man-notify-method 'pushy)
 #+END_SRC
 
 * Appearance
@@ -799,6 +802,8 @@ A project can be defined
   (column-number-mode 1)
   (show-paren-mode 1)
   (tool-bar-mode -1)
+
+  (setq pdf-view-display-size 'fit-page)
 #+END_SRC
 
 * Keybindings
@@ -840,7 +845,7 @@ A project can be defined
 	browse-url-browser-function 'w3m-goto-url-new-session)
 
   (setq mu4e-mu-binary "/home/sh0e/build/mu/mu/mu"
-	mu4e-maildir "/media/Storage/Mail"
+	mu4e-maildir "/home/sh0e/Mail"
 	mu4e-sent-messages-behavior 'delete
 	mu4e-drafts-folder "/drafts"
 	mu4e-sent-folder   "/sent"
