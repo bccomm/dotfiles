@@ -1,4 +1,4 @@
-;;
+;;  -*- mode: common-lisp -*-
 ;; Stumpwm user definitions
 
 (redirect-all-output "/home/sh0e/stumpwmlog")
@@ -21,6 +21,10 @@
 
 (setf *screen-mode-line-format*
       (list '(:eval (run-shell-command "date '+%R, %F %a'|tr -d [:cntrl:]" t)) " | [^B%n^b] %W"))
+
+(define-key *top-map* (kbd "XF86AudioLowerVolume") "exec pactl set-sink-volume 0 -5%")
+(define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec pactl set-sink-volume 0 +5%")
+(define-key *top-map* (kbd "XF86AudioMute") "exec pactl set-sink-mute 0 toggle")
 
 (defcommand gnome-terminal () ()
   "Start an gnome-terminal instance or switch to it, if it is already running."
